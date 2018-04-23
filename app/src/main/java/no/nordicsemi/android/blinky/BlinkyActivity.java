@@ -90,13 +90,8 @@ public class BlinkyActivity extends AppCompatActivity {
 				Toast.makeText(this, "privet", Toast.LENGTH_SHORT).show();
 			}
 		});
-		viewModel.getLEDState().observe(this, isOn -> {
-			ledState.setText("privet");
-			led.setChecked(true);
-		});
-		viewModel.getUartData().observe(this, mRXdata ->{
-			Toast.makeText(this, "получили: " + mRXdata, Toast.LENGTH_SHORT).show();
-		});
+		viewModel.sendUartData().observe(this, ledState::setText);
+		viewModel.getUartData().observe(this, buttonState::setText);
 	}
 
 	@Override
