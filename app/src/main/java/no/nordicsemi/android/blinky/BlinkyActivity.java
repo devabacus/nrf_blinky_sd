@@ -37,6 +37,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -69,19 +71,24 @@ public class BlinkyActivity extends AppCompatActivity {
 		viewModel.connect(device);
 
 		// Set up views
-		final TextView ledState = findViewById(R.id.led_state);
-		final Switch led = findViewById(R.id.led_switch);
-		final TextView buttonState = findViewById(R.id.button_state);
 		final LinearLayout progressContainer = findViewById(R.id.progress_container);
 		final TextView connectionState = findViewById(R.id.connection_state);
 		final View content = findViewById(R.id.device_container);
+		final TextView tvRxMsg = findViewById(R.id.tv_rx_msg);
+		final EditText etSend = findViewById(R.id.send_text);
+		final Button btnSend = findViewById(R.id.btn_send);
 
-		led.setOnClickListener(view -> viewModel.toggleLED("stas"));
+
+		//led.setOnClickListener(view -> viewModel.toggleLED("stas"));
 
 		viewModel.isDeviceReady().observe(this, deviceRead->{
 			progressContainer.setVisibility(View.GONE);
 			content.setVisibility(View.VISIBLE);
 		} );
+
+
+		btnSend.setOnClickListener( view->viewModel.sendTX(etSend.getText().toString()));
+
 
 		viewModel.getConnectionState().observe(this, connectionState::setText);
 		viewModel.isConnected().observe(this, connected -> {
@@ -90,17 +97,20 @@ public class BlinkyActivity extends AppCompatActivity {
 				Toast.makeText(this, "privet", Toast.LENGTH_SHORT).show();
 			}
 		});
-		viewModel.sendUartData().observe(this, ledState::setText);
-		viewModel.getUartData().observe(this, buttonState::setText);
+		//viewModel.sendUartData().observe(this, ledState::setText);
+		viewModel.getUartData().observe(this, tvRxMsg::setText);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
+				Toast.makeText(this, "домой", Toast.LENGTH_SHORT).show();
 				onBackPressed();
 				return true;
 		}
 		return false;
 	}
+
+
 }
