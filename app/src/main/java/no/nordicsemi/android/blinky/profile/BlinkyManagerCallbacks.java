@@ -22,21 +22,13 @@
 
 package no.nordicsemi.android.blinky.profile;
 
+import android.bluetooth.BluetoothDevice;
+
 import no.nordicsemi.android.ble.BleManagerCallbacks;
 
 public interface BlinkyManagerCallbacks extends BleManagerCallbacks {
 
-	/**
-	 * Called when a button was pressed or released on device
-	 *
-	 * @param state true if the button was pressed, false if released
-	 */
-	void onDataReceived(final boolean state);
+	void onDataReceived(final String data);
 
-	/**
-	 * Called when the data has been sent to the connected device.
-	 *
-	 * @param state true when LED was enabled, false when disabled
-	 */
-	void onDataSent(final boolean state);
+	void onDataSent(final String data);
 }

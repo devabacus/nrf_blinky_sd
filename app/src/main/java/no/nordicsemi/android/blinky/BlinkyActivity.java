@@ -76,7 +76,7 @@ public class BlinkyActivity extends AppCompatActivity {
 		final TextView connectionState = findViewById(R.id.connection_state);
 		final View content = findViewById(R.id.device_container);
 
-		led.setOnClickListener(view -> viewModel.toggleLED(led.isChecked()));
+		led.setOnClickListener(view -> viewModel.toggleLED("stas"));
 
 		viewModel.isDeviceReady().observe(this, deviceRead->{
 			progressContainer.setVisibility(View.GONE);
@@ -91,10 +91,12 @@ public class BlinkyActivity extends AppCompatActivity {
 			}
 		});
 		viewModel.getLEDState().observe(this, isOn -> {
-			ledState.setText(isOn ? R.string.turn_on : R.string.turn_off);
-			led.setChecked(isOn);
+			ledState.setText("privet");
+			led.setChecked(true);
 		});
-		viewModel.getButtonState().observe(this, pressed -> buttonState.setText(pressed ? R.string.button_pressed : R.string.button_released));
+		viewModel.getUartData().observe(this, mRXdata ->{
+			Toast.makeText(this, "получили: " + mRXdata, Toast.LENGTH_SHORT).show();
+		});
 	}
 
 	@Override
