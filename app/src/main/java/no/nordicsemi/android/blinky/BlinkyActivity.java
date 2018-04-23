@@ -105,8 +105,7 @@ public class BlinkyActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				Toast.makeText(this, "домой", Toast.LENGTH_SHORT).show();
-				onBackPressed();
+                onBackPressed();
 				return true;
 		}
 		return false;
