@@ -94,10 +94,9 @@ public class BlinkyActivity extends AppCompatActivity {
 		viewModel.isConnected().observe(this, connected -> {
 			if (!connected) {
 				finish();
-				Toast.makeText(this, "privet", Toast.LENGTH_SHORT).show();
 			}
 		});
-		//viewModel.sendUartData().observe(this, ledState::setText);
+
 		viewModel.getUartData().observe(this, tvRxMsg::setText);
 	}
 

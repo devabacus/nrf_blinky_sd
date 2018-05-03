@@ -96,6 +96,7 @@ public class ScannerLiveData extends LiveData<ScannerLiveData> {
 	/* package */ void deviceDiscovered(final ScanResult result) {
 		ExtendedBluetoothDevice device;
 
+
 		final int index = indexOf(result);
 		if (index == -1) {
 			device = new ExtendedBluetoothDevice(result);
