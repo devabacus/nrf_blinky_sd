@@ -33,6 +33,8 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
     private static final String TAG = "myLogs";
     RecyclerView recButView;
     ButtonAdapter adapter;
+
+    Button btnRes;
     private ButtonsViewModel buttonsViewModel;
     private BlinkyViewModel blinkyViewModel;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
@@ -56,6 +58,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
 
         recButView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         // Отслеживание изменения количества кнопок в настройках
+
 
         buttonsViewModel.getCorButList().observe(getActivity(), corButtonList -> {
             Log.d(TAG, "onChanged: corButtonList.size() = ");
@@ -99,6 +102,10 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
             adapter.additems(corButtonList);
 
         });
+
+        btnRes = v.findViewById(R.id.btnRes);
+        btnRes.setOnClickListener(v1 -> blinkyViewModel.sendTX("$r&"));
+
         return v;
 
     }
@@ -109,7 +116,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         CorButton corButton = (CorButton) v.getTag();
         //если настроена компенсация
         Log.d("myLogs", "corValue " + corButton.getCorValue() + ", corDir " + corButton.getCorDir());
-        if (corButton.getCorDir().equals("-%") && (corButton.getCompValue() != 0)) {
+        if (corButton.getCorDir().equals("p") && (corButton.getCompValue() != 0)) {
             Log.d("myLogs", ", compValue = " + corButton.getCompValue());
         }
         StringBuilder msg = new StringBuilder();
@@ -117,7 +124,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         msg.append(corButton.getId()+1).append(",");
         msg.append(corButton.getCorDir());
         msg.append(corButton.getCorValue());
-        if (corButton.getCorDir().contains("%")) msg.append(",").append(corButton.getCompValue());
+        if (corButton.getCorDir().contains("p")) msg.append(",").append(corButton.getCompValue());
         msg.append("&");
         blinkyViewModel.sendTX(msg.toString());
     }

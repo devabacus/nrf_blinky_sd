@@ -73,6 +73,7 @@
     <string name="btnDelete">Удалить</string>
     <string name="settings">Настройки</string>
     <string name="website">www.scale-driver.ru</string>
+    <string name="Reset">Сброс</string>
 
     <string-array name="butNum_entries">
 

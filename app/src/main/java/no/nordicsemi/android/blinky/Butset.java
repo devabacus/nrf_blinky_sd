@@ -110,7 +110,7 @@ public class Butset extends Fragment implements View.OnClickListener {
                         break;
 
                     case R.id.rbPercent:
-                        dirCor = "-%";
+                        dirCor = "p";
                         cbComp.setVisibility(View.VISIBLE);
                         if (cbComp.isChecked()) frameComp.setVisibility(View.VISIBLE);
 
@@ -186,7 +186,7 @@ public class Butset extends Fragment implements View.OnClickListener {
                         rbMinus.setChecked(true);
                         break;
 
-                    case "-%":
+                    case "p":
                         rbPercent.setChecked(true);
                         break;
 
@@ -205,6 +205,7 @@ public class Butset extends Fragment implements View.OnClickListener {
             case R.id.btnClose:
                 buttonsViewModel.setmSetButton(false);
                 setLayout.setVisibility(View.GONE);
+                blinkyViewModel.sendTX("$r&");
                 break;
             case R.id.btnSave:
                 butName = etButName.getText().toString();
@@ -213,6 +214,7 @@ public class Butset extends Fragment implements View.OnClickListener {
                         curCorButton.getId(), butName, dirCor, corValue, compValue
                 ));
                 setLayout.setVisibility(View.GONE);
+                blinkyViewModel.sendTX("$r&");
 
             case R.id.btnInc:
                 corValue++;

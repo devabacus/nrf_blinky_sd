@@ -106,7 +106,7 @@ public class ScannerViewModel extends AndroidViewModel {
 		filters.add(new ScanFilter.Builder().setServiceUuid(uuid).build());
 
 		final BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
-		scanner.startScan(filters, settings, scanCallback);
+		scanner.startScan(null, settings, scanCallback);
 		mScannerLiveData.scanningStarted();
 	}
 
