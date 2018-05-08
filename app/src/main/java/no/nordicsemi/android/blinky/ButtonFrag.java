@@ -112,7 +112,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         if (corButton.getCorDir().equals("-%") && (corButton.getCompValue() != 0)) {
             Log.d("myLogs", ", compValue = " + corButton.getCompValue());
         }
-        blinkyViewModel.sendTX("$" + corButton.);
+        blinkyViewModel.sendTX("$");
 
 
     }
