@@ -114,9 +114,11 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         }
         StringBuilder msg = new StringBuilder();
         msg.append("$");
+        msg.append(corButton.getId()+1).append(",");
         msg.append(corButton.getCorDir());
         msg.append(corButton.getCorValue());
         if (corButton.getCorDir().contains("%")) msg.append(",").append(corButton.getCompValue());
+        msg.append("&");
         blinkyViewModel.sendTX(msg.toString());
     }
 

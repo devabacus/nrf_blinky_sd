@@ -29,7 +29,7 @@
   -->
 
 <resources>
-    <string name="app_name">Scale-driver</string>
+    <string name="app_name">Весовой драйвер</string>
     <string name="feature_name">scale-driver</string>
 
     <string name="title">@string/app_name</string>
@@ -72,6 +72,7 @@
     <string name="cbCompText">кг</string>
     <string name="btnDelete">Удалить</string>
     <string name="settings">Настройки</string>
+    <string name="website">www.scale-driver.ru</string>
 
     <string-array name="butNum_entries">
 
