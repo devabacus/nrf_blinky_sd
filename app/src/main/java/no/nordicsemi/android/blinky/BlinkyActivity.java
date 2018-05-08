@@ -90,8 +90,7 @@ public class BlinkyActivity extends AppCompatActivity {
 		} );
 
 
-		btnSend.setOnClickListener( view->viewModel.sendTX(etSend.getText().toString()));
-
+		btnSend.setOnClickListener(v -> viewModel.sendTX(etSend.getText().toString()));
 
 		viewModel.getConnectionState().observe(this, connectionState::setText);
 		viewModel.isConnected().observe(this, connected -> {
