@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 
 import no.nordicsemi.android.blinky.database.CorButton;
+import no.nordicsemi.android.blinky.viewmodels.BlinkyViewModel;
 
 import java.util.Objects;
 
@@ -27,6 +28,7 @@ public class CompPercent extends Fragment implements View.OnClickListener {
     private static final String TAG = "CompPercent";
 
     ButtonsViewModel buttonsViewModel;
+    BlinkyViewModel blinkyViewModel;
 
     EditText etCompValue;
     Button btnDec, btnInc;
@@ -44,6 +46,8 @@ public class CompPercent extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         buttonsViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ButtonsViewModel.class);
+        blinkyViewModel = ViewModelProviders.of(getActivity()).get(BlinkyViewModel.class);
+
 
         View v = inflater.inflate(R.layout.fragment_comp_percent, container, false);
         etCompValue = v.findViewById(R.id.etCompValue);
@@ -60,32 +64,26 @@ public class CompPercent extends Fragment implements View.OnClickListener {
             public void onFocusChange(View v, boolean hasFocus) {
 
                 compCorValue = Integer.valueOf(etCompValue.getText().toString());
-                //Log.d("myLogs", "compCorValue" + String.valueOf(compCorValue));
                 buttonsViewModel.setmCompCorValue(compCorValue);
+                //blinkyViewModel.sendTX("$" + dirCor + corValue + "&");
 
             }
         });
 
-        buttonsViewModel.getmCurCorButton().observe(getActivity(), new Observer<CorButton>() {
-            @Override
-            public void onChanged(@Nullable CorButton corButton) {
-                assert corButton != null;
-                compCorValue = corButton.getCompValue();
-            }
+        buttonsViewModel.getmCurCorButton().observe(getActivity(), corButton -> {
+            assert corButton != null;
+            compCorValue = corButton.getCompValue();
         });
 
-        buttonsViewModel.ismSetButton().observe(getActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
+        buttonsViewModel.ismSetButton().observe(getActivity(), aBoolean -> {
 
-                if (aBoolean != null) {
-                    if (aBoolean) {
-                        if (compCorValue < 0) {
-                            compCorValue = -compCorValue;
-                            rbMinus.setChecked(true);
-                        }
-                        seekBar.setProgress(compCorValue);
+            if (aBoolean != null) {
+                if (aBoolean) {
+                    if (compCorValue < 0) {
+                        compCorValue = -compCorValue;
+                        rbMinus.setChecked(true);
                     }
+                    seekBar.setProgress(compCorValue);
                 }
             }
         });
@@ -97,6 +95,7 @@ public class CompPercent extends Fragment implements View.OnClickListener {
                 etCompValue.setText(String.valueOf(compCorValue));
                 if (rbMinus.isChecked()) compCorValue = -compCorValue;
                 buttonsViewModel.setmCompCorValue(compCorValue);
+                blinkyViewModel.sendTX("$c" + compCorValue + "&");
             }
 
             @Override

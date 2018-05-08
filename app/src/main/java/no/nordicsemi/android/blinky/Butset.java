@@ -22,6 +22,7 @@ import android.widget.SeekBar;
 
 import no.nordicsemi.android.blinky.database.AppDatabase;
 import no.nordicsemi.android.blinky.database.CorButton;
+import no.nordicsemi.android.blinky.viewmodels.BlinkyViewModel;
 
 import java.util.Objects;
 
@@ -32,6 +33,7 @@ import java.util.Objects;
 public class Butset extends Fragment implements View.OnClickListener {
 
     ButtonsViewModel buttonsViewModel;
+    BlinkyViewModel blinkyViewModel;
     Button btnClose, btnSave, btnInc, btnDec;
     EditText etButName;
     CorButton curCorButton;
@@ -68,6 +70,7 @@ public class Butset extends Fragment implements View.OnClickListener {
         appDatabase = AppDatabase.getDatabase(this.getContext());
 
         buttonsViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ButtonsViewModel.class);
+        blinkyViewModel = ViewModelProviders.of(getActivity()).get(BlinkyViewModel.class);
 
         final View v = inflater.inflate(R.layout.fragment_butset, container, false);
         setLayout = v.findViewById(R.id.butSetLayout);
@@ -118,12 +121,9 @@ public class Butset extends Fragment implements View.OnClickListener {
             }
         });
 
-        cbComp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cbComp.isChecked()) frameComp.setVisibility(View.VISIBLE);
-                else frameComp.setVisibility(View.GONE);
-            }
+        cbComp.setOnClickListener(v1 -> {
+            if (cbComp.isChecked()) frameComp.setVisibility(View.VISIBLE);
+            else frameComp.setVisibility(View.GONE);
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -131,6 +131,7 @@ public class Butset extends Fragment implements View.OnClickListener {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 corValue = progress;
                 etCorValue.setText(String.valueOf(corValue));
+                blinkyViewModel.sendTX("$" + dirCor + corValue + "&");
             }
 
             @Override
@@ -148,59 +149,50 @@ public class Butset extends Fragment implements View.OnClickListener {
         btnSave.setOnClickListener(this);
 
 
-        buttonsViewModel.getmCurCorButton().observe(getActivity(), new Observer<CorButton>() {
-            @Override
-            public void onChanged(@Nullable CorButton corButton) {
-                curCorButton = corButton;
-                if(curCorButton != null) curCorButId = curCorButton.getId();
+        buttonsViewModel.getmCurCorButton().observe(getActivity(), corButton -> {
+            curCorButton = corButton;
+            if(curCorButton != null) curCorButId = curCorButton.getId();
 
-            }
         });
 
-        buttonsViewModel.getCompCorValue().observe(getActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer integer) {
-                if (integer != null) compValue = integer;
-            }
+        buttonsViewModel.getCompCorValue().observe(getActivity(), integer -> {
+            if (integer != null) compValue = integer;
         });
 
 
-        buttonsViewModel.ismSetButton().observe(getActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if (aBoolean != null) {
-                    if (aBoolean) {
-                        setLayout.setVisibility(View.VISIBLE);
-                        //CorButton newcurCorButton = buttonsViewModel.getCorButtonById(curCorButId);
-                       // CorButtonById = appDatabase.buttonsDao().getItemById(curCorButId);
-                        etButName.setText(curCorButton.getButNum());
+        buttonsViewModel.ismSetButton().observe(getActivity(), aBoolean -> {
+            if (aBoolean != null) {
+                if (aBoolean) {
+                    setLayout.setVisibility(View.VISIBLE);
+                    //CorButton newcurCorButton = buttonsViewModel.getCorButtonById(curCorButId);
+                   // CorButtonById = appDatabase.buttonsDao().getItemById(curCorButId);
+                    etButName.setText(curCorButton.getButNum());
 
-                        seekBar.setProgress(curCorButton.getCorValue());
-                    } else {
+                    seekBar.setProgress(curCorButton.getCorValue());
+                } else {
 
-                        setLayout.setVisibility(View.GONE);
-                    }
-
-                    Log.d("myLogs", "название: " + curCorButton.getButNum() + ", corValue: " + curCorButton.getCorValue() + ", dirCor: " + curCorButton.getCorDir() + ", compValue: " + curCorButton.getCompValue());
-                    if (curCorButton.getCompValue() != 0) cbComp.setChecked(true);
-                    else cbComp.setChecked(false);
-                    switch (curCorButton.getCorDir()) {
-                        case "+":
-                            rbPlus.setChecked(true);
-                        break;
-
-                        case "-":
-                            rbMinus.setChecked(true);
-                            break;
-
-                        case "-%":
-                            rbPercent.setChecked(true);
-                            break;
-
-                    }
+                    setLayout.setVisibility(View.GONE);
                 }
 
+                Log.d("myLogs", "название: " + curCorButton.getButNum() + ", corValue: " + curCorButton.getCorValue() + ", dirCor: " + curCorButton.getCorDir() + ", compValue: " + curCorButton.getCompValue());
+                if (curCorButton.getCompValue() != 0) cbComp.setChecked(true);
+                else cbComp.setChecked(false);
+                switch (curCorButton.getCorDir()) {
+                    case "+":
+                        rbPlus.setChecked(true);
+                    break;
+
+                    case "-":
+                        rbMinus.setChecked(true);
+                        break;
+
+                    case "-%":
+                        rbPercent.setChecked(true);
+                        break;
+
+                }
             }
+
         });
 
         return v;
