@@ -112,9 +112,12 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         if (corButton.getCorDir().equals("-%") && (corButton.getCompValue() != 0)) {
             Log.d("myLogs", ", compValue = " + corButton.getCompValue());
         }
-        blinkyViewModel.sendTX("$");
-
-
+        StringBuilder msg = new StringBuilder();
+        msg.append("$");
+        msg.append(corButton.getCorDir());
+        msg.append(corButton.getCorValue());
+        if (corButton.getCorDir().contains("%")) msg.append(",").append(corButton.getCompValue());
+        blinkyViewModel.sendTX(msg.toString());
     }
 
     @Override
@@ -124,6 +127,4 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         buttonsViewModel.setmSetButton(true);
         return false;
     }
-
-
 }
