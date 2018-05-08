@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:dialogTitle="Выберите количество"
+        android:entries="@array/butNum_entries"
+        android:entryValues="@array/butNum_entries"
+        android:key="num_buttons"
+        android:summary="8"
+        android:title="Количество кнопок"
+
+        />
+
+
+</PreferenceScreen>

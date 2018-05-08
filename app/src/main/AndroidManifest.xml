@@ -73,6 +73,9 @@
 			android:launchMode="singleTop">
 		</activity>
 
+
+		<activity android:name=".preferences.SetPrefActivity"/>
+
 	</application>
 
 </manifest>

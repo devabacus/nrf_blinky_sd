@@ -29,33 +29,60 @@
   -->
 
 <resources>
-	<string name="app_name">Scale-driver</string>
-	<string name="feature_name">scale-driver</string>
+    <string name="app_name">Scale-driver</string>
+    <string name="feature_name">scale-driver</string>
 
-	<string name="title">@string/app_name</string>
+    <string name="title">@string/app_name</string>
 
-	<string name="unknown_device">Неизвестное устройство</string>
-	<string name="state">Статус</string>
+    <string name="unknown_device">Неизвестное устройство</string>
+    <string name="state">Статус</string>
 
-	<string name="location_permission_title">LOCATION PERMISSION REQUIRED</string>
-	<string name="location_permission_info">From Android 6.0 Marshmallow onwards the application requires Location permission in order to scan for Bluetooth Low Energy devices.
+    <string name="location_permission_title">LOCATION PERMISSION REQUIRED</string>
+    <string name="location_permission_info">From Android 6.0 Marshmallow onwards the application requires Location permission in order to scan for Bluetooth Low Energy devices.
       \n\nThis is because Bluetooth LE beacons, for example iBeacons or Eddystone, may be used to determine the phone\'s and user\'s location. <b>nRF Blinky</b> will not use this information in any way.</string>
-	<string name="location_permission_action">Grant permission</string>
-	<string name="location_permission_settings">Настройки</string>
+    <string name="location_permission_action">Grant permission</string>
+    <string name="location_permission_settings">Настройки</string>
 
-	<string name="bluetooth_disabled_title">Bluetooth недоступен</string>
-	<string name="bluetooth_disabled_info">Bluetooth адаптер выключен. Нажмите на кнопку ниже для включения.</string>
-	<string name="bluetooth_disabled_action">Разрешить</string>
+    <string name="bluetooth_disabled_title">Bluetooth недоступен</string>
+    <string name="bluetooth_disabled_info">Bluetooth адаптер выключен. Нажмите на кнопку ниже для включения.</string>
+    <string name="bluetooth_disabled_action">Разрешить</string>
 
-	<string name="blinky_guide_title">Не отображается устройство?</string>
-	<string name="blinky_guide_info">Попробуйте перезапустить устройство</string>
-	<string name="blinky_guide_location_info">3. Location is turned off. Some Android phones require it enabled in order to scan for Bluetooth LE devices.
+    <string name="blinky_guide_title">Не отображается устройство?</string>
+    <string name="blinky_guide_info">Попробуйте перезапустить устройство</string>
+    <string name="blinky_guide_location_info">3. Location is turned off. Some Android phones require it enabled in order to scan for Bluetooth LE devices.
 		If you are sure your Blinky is advertising and it doesn\'t show up here, click the button below to enable Location.</string>
-	<string name="blinky_guide_location_action">Разрешить</string>
+    <string name="blinky_guide_location_action">Разрешить</string>
 
-	<string name="state_scanning">Подключение…</string>
-	<string name="state_connecting">Подключение…</string>
-	<string name="state_discovering_services">Подключение…</string>
-	<string name="state_initializing">Подключение…</string>
-	<string name="state_discovering_services_completed">%s готово</string>
+    <string name="state_scanning">Подключение…</string>
+    <string name="state_connecting">Подключение…</string>
+    <string name="state_discovering_services">Подключение…</string>
+    <string name="state_initializing">Подключение…</string>
+    <string name="state_discovering_services_completed">%s готово</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="plusKg">+ кг</string>
+    <string name="minusKg">- кг</string>
+    <string name="minusPercent">- %</string>
+    <string name="btnInc"><![CDATA[>]]></string>
+    <string name="btnDec"><![CDATA[<]]></string>
+    <string name="etName">название</string>
+    <string name="btnClose">Закрыть</string>
+    <string name="btnSave">Сохранить</string>
+    <string name="etCorStartValue">100</string>
+    <string name="cbCompText">кг</string>
+    <string name="btnDelete">Удалить</string>
+    <string name="settings">Настройки</string>
+
+    <string-array name="butNum_entries">
+
+        <item>8</item>
+        <item>12</item>
+        <item>16</item>
+        <item>20</item>
+        <item>24</item>
+        <item>28</item>
+        <item>32</item>
+
+    </string-array>
+
 </resources>

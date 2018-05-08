@@ -119,6 +119,7 @@ public class BlinkyViewModel extends AndroidViewModel implements BlinkyManagerCa
 	public void sendTX(final String msg) {
 		mBlinkyManager.send(msg);
 		mTXdata.setValue(msg);
+
 	}
 
 	@Override

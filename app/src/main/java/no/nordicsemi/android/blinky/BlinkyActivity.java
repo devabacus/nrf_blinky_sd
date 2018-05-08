@@ -35,6 +35,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import no.nordicsemi.android.blinky.adapter.ExtendedBluetoothDevice;
+import no.nordicsemi.android.blinky.preferences.SetPrefActivity;
 import no.nordicsemi.android.blinky.viewmodels.BlinkyViewModel;
 
 public class BlinkyActivity extends AppCompatActivity {
@@ -101,14 +104,31 @@ public class BlinkyActivity extends AppCompatActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_set, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
                 onBackPressed();
 				return true;
+			case R.id.settings:
+				Intent intent = new Intent();
+				intent.setClass(BlinkyActivity.this, SetPrefActivity.class);
+				startActivityForResult(intent, 0);
+				break;
 		}
 		return false;
 	}
+
+
+
 
 
 }

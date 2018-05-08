@@ -58,7 +58,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@+id/appbar_layout"
-		android:visibility="gone">
+		android:visibility="visible">
 
 		<android.support.constraint.ConstraintLayout
 			android:layout_width="match_parent"
@@ -68,7 +68,7 @@
 				android:id="@+id/tv_rx_msg"
 				android:textSize="20sp"
 				tools:text="RX message"
-				android:layout_marginLeft="5dp"
+				android:layout_marginStart="5dp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content" />
 
@@ -92,6 +92,26 @@
 				app:layout_constraintTop_toBottomOf="@id/tv_rx_msg"
 				android:text="Отправить"/>
 
+			<fragment
+				android:id="@+id/frag_butSet"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:name="no.nordicsemi.android.blinky.Butset"
+				app:layout_constraintTop_toBottomOf="@id/btn_send"
+				android:layout_marginTop="20dp"
+				/>
+
+
+			<fragment
+				android:id="@+id/frag_but"
+				android:name="no.nordicsemi.android.blinky.ButtonFrag"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true"
+				android:layout_alignParentStart="true"
+				app:layout_constraintTop_toBottomOf="@id/frag_butSet" />
+
+
 
 		</android.support.constraint.ConstraintLayout>
 
@@ -104,6 +124,7 @@
 		android:layout_centerInParent="true"
 		android:gravity="center_horizontal"
 		android:orientation="vertical"
+		android:visibility="gone"
 		android:padding="@dimen/activity_horizontal_margin">
 
 		<TextView

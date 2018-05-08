@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "no.nordicsemi.android.nrfblinky"
-        minSdkVersion 18
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 5
         versionName "2.0.2"
@@ -26,9 +26,10 @@ android {
         }
     }
 
+
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -41,7 +42,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     // Butter Knife
     implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.android.support:support-v4:27.1.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     // Brings the new BluetoothLeScanner API to older platforms
     implementation 'no.nordicsemi.android.support.v18:scanner:1.0.0'
     // Log Bluetooth LE events in nRF Logger
@@ -50,4 +53,8 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     // BLE library
     implementation project(':ble')
+
+    // Room (use 1.1.0-beta3 for latest beta)
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 }

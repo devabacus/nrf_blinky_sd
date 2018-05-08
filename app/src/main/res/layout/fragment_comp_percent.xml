@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CompPercent">
+
+    <LinearLayout
+        android:id="@+id/linCompTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <RadioGroup
+            android:id="@+id/rgCompKg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/rbPlusComp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/plusKg" />
+
+            <RadioButton
+                android:id="@+id/rbMinusComp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minusKg" />
+
+        </RadioGroup>
+
+
+        <LinearLayout
+            android:id="@+id/linValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:gravity="center_horizontal"
+
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/btnDec"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="@string/btnDec" />
+
+
+            <EditText
+                android:id="@+id/etCompValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/etCorStartValue"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btnInc"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="@string/btnInc" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBarComp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="1000"
+        android:progress="100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linCompTop" />
+
+</android.support.constraint.ConstraintLayout>

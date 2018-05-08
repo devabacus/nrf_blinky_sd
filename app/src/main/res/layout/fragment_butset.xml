@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/butSetLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    tools:context=".Butset"
+    tools:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/linRgCb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+
+        android:orientation="horizontal">
+
+
+        <RadioGroup
+            android:id="@+id/rgCorDir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/plusKg" />
+
+            <RadioButton
+                android:id="@+id/rbMinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/minusKg" />
+
+            <RadioButton
+                android:id="@+id/rbPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/minusPercent" />
+
+
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/cbCompPerc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/cbCompText"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linRgCb"
+
+
+        >
+
+
+        <Button
+            android:id="@+id/btnDec"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btnDec" />
+
+        <EditText
+            android:id="@+id/etCorValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/etCorStartValue"
+            android:textSize="15sp" />
+
+
+        <Button
+            android:id="@+id/btnInc"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btnInc" />
+
+
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="1000"
+        android:progress="100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linValue" />
+
+    <FrameLayout
+        android:id="@+id/frameFragComp"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBar"
+
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        tools:visibility="visible"
+        android:visibility="gone"
+        >
+
+
+    <fragment
+        android:id="@+id/frag_comp"
+        android:name="no.nordicsemi.android.blinky.CompPercent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameFragComp">
+
+        <EditText
+            android:id="@+id/etButNum"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:hint="@string/etName"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/btnClose" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/btnSave" />
+
+
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

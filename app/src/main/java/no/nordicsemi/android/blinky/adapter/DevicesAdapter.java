@@ -52,6 +52,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 	private final List<ExtendedBluetoothDevice> mDevices;
 	private OnItemClickListener mOnItemClickListener;
 
+
 	@FunctionalInterface
 	public interface OnItemClickListener {
 		void onItemClick(final ExtendedBluetoothDevice device);
