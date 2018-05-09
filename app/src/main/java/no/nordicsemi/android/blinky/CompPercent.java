@@ -100,8 +100,13 @@ public class CompPercent extends Fragment implements View.OnClickListener {
                 buttonsViewModel.setmCompCorValue(compCorValue);
                 //blinkyViewModel.sendTX("$c" + compCorValue + "&");
                 if(curCorButton!=null){
-                    String msg = "$" + "p" + curCorButton.getCorValue() + "c" + compCorValue + "&";
-                    blinkyViewModel.sendTX(msg);
+                    if(curCorButton.getCorValue()!=0){
+                        String msg = "$" + "p" + curCorButton.getCorValue() + "c" + compCorValue + "&";
+                        blinkyViewModel.sendTX(msg);
+                    } else {
+                        blinkyViewModel.sendTX("$r&");
+                    }
+
                 }
 
             }

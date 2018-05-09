@@ -157,12 +157,12 @@ public class Butset extends Fragment implements View.OnClickListener {
                 //Log.d(TAG, "onProgressChanged: curCorButton.getCorDir() = " + curCorButton.getCorDir());
                 String curCorDir = dirCor;
 
-                if(curCorButton != null){
-                    if(curCorButton.getCorValue() != 0){
-                        curCorDir = curCorButton.getCorDir();
-                    }
-                    blinkyViewModel.sendTX("$" + curCorDir + corValue + "&");
-                }
+                blinkyViewModel.sendTX("$" + curCorDir + corValue + "&");
+//                if(curCorButton != null){
+//                    if(curCorButton.getCorValue() != 0){
+//                        curCorDir = curCorButton.getCorDir();
+//                    }
+//                }
 
                 if(curCorButton!=null){
                     curCorButton.setCorValue(corValue);
