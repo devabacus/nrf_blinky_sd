@@ -36,6 +36,8 @@ public class CompPercent extends Fragment implements View.OnClickListener {
     RadioButton rbMinus;
     int compCorValue = 0;
 
+    CorButton curCorButton;
+
     public CompPercent() {
         // Required empty public constructor
     }
@@ -72,6 +74,7 @@ public class CompPercent extends Fragment implements View.OnClickListener {
 
         buttonsViewModel.getmCurCorButton().observe(getActivity(), corButton -> {
             assert corButton != null;
+            this.curCorButton = corButton;
             compCorValue = corButton.getCompValue();
         });
 
@@ -95,7 +98,12 @@ public class CompPercent extends Fragment implements View.OnClickListener {
                 etCompValue.setText(String.valueOf(compCorValue));
                 if (rbMinus.isChecked()) compCorValue = -compCorValue;
                 buttonsViewModel.setmCompCorValue(compCorValue);
-                blinkyViewModel.sendTX("$c" + compCorValue + "&");
+                //blinkyViewModel.sendTX("$c" + compCorValue + "&");
+                if(curCorButton!=null){
+                    String msg = "$" + "p" + curCorButton.getCorValue() + "c" + compCorValue + "&";
+                    blinkyViewModel.sendTX(msg);
+                }
+
             }
 
             @Override

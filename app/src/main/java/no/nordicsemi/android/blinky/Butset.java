@@ -44,7 +44,7 @@ public class Butset extends Fragment implements View.OnClickListener {
     EditText etCorValue;
     String butName;
     String dirCor = "+";
-    int corValue;
+    int corValue = 0;
     int compValue = 0;
     RadioGroup rgCorDir;
     CheckBox cbComp;
@@ -153,13 +153,20 @@ public class Butset extends Fragment implements View.OnClickListener {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 corValue = progress;
                 etCorValue.setText(String.valueOf(corValue));
+
                 //Log.d(TAG, "onProgressChanged: curCorButton.getCorDir() = " + curCorButton.getCorDir());
                 String curCorDir = dirCor;
+
                 if(curCorButton != null){
                     if(curCorButton.getCorValue() != 0){
                         curCorDir = curCorButton.getCorDir();
                     }
                     blinkyViewModel.sendTX("$" + curCorDir + corValue + "&");
+                }
+
+                if(curCorButton!=null){
+                    curCorButton.setCorValue(corValue);
+                    buttonsViewModel.setmCurCorButton(curCorButton);
                 }
 
 
