@@ -76,7 +76,7 @@ public class Butset extends Fragment implements View.OnClickListener {
         } else {
             firstOpenSet = false;
         }
-
+        //TODO сброс seekbar при переключении настройки
 
     }
 

@@ -95,7 +95,7 @@ public class CompPercent extends Fragment implements View.OnClickListener {
                 etCompValue.setText(String.valueOf(compCorValue));
                 if (rbMinus.isChecked()) compCorValue = -compCorValue;
                 buttonsViewModel.setmCompCorValue(compCorValue);
-               // blinkyViewModel.sendTX("$c" + compCorValue + "&");
+                blinkyViewModel.sendTX("$c" + compCorValue + "&");
             }
 
             @Override

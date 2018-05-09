@@ -3,6 +3,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import no.nordicsemi.android.blinky.database.AppDatabase;
 import no.nordicsemi.android.blinky.database.CorButton;
@@ -114,7 +116,10 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         });
         btnRes = v.findViewById(R.id.btnRes);
         tvState = v.findViewById(R.id.tv_state);
-        btnRes.setOnClickListener(v1 -> blinkyViewModel.sendTX("$r&"));
+        btnRes.setOnClickListener(v1 -> {
+            blinkyViewModel.sendTX("$r&");
+            tvState.setText("Сброс");
+        });
 
         return v;
 
@@ -126,7 +131,9 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         msg.append(corButton.getId()+1).append(",");
         msg.append(corButton.getCorDir());
         msg.append(corButton.getCorValue());
-        if (corButton.getCorDir().contains("p")) msg.append(",").append(corButton.getCompValue());
+        if(corButton.getCorDir().contains("p")){
+            msg.append("c").append(corButton.getCompValue());
+        }
         msg.append("&");
     }
 
@@ -139,7 +146,6 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         //if(!setOpened)
         blinkyViewModel.sendTX(msg.toString());
     }
-
     @Override
     public boolean onLongClick(View v) {
         CorButton corButton = (CorButton) v.getTag();
