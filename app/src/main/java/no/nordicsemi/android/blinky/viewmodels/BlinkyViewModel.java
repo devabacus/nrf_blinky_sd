@@ -56,6 +56,7 @@ import static no.nordicsemi.android.log.Logger.log;
 public class BlinkyViewModel extends AndroidViewModel implements BlinkyManagerCallbacks, ILogger {
 	private final BlinkyManager mBlinkyManager;
 
+	private static final String TAG = "BlinkyViewModel";
 
 	// Connection states Connecting, Connected, Disconnecting, Disconnected etc.
 	private final MutableLiveData<String> mConnectionState = new MutableLiveData<>();
@@ -133,14 +134,14 @@ public class BlinkyViewModel extends AndroidViewModel implements BlinkyManagerCa
 	@Override
 	public void onDataReceived(final String state) {
 		mRXdata.postValue(state);
-		Log.d("myLogs", "RX: " + state);
+		Log.d(TAG, "RX: " + state);
 		//Logger.a(testLogSession, "received something");
 	}
 
 	@Override
 	public void onDataSent(final String state) {
 		mTXdata.postValue(state);
-		Log.d("myLogs", "TX: " + state);
+		Log.d(TAG, "TX: " + state);
 		//Logger.a(testLogSession, "send something");
 
 	}

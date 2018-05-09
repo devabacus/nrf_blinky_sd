@@ -32,6 +32,9 @@ import java.util.Objects;
  */
 public class Butset extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "Butset";
+
+
     ButtonsViewModel buttonsViewModel;
     BlinkyViewModel blinkyViewModel;
     Button btnClose, btnSave, btnInc, btnDec;
@@ -52,12 +55,24 @@ public class Butset extends Fragment implements View.OnClickListener {
     long curCorButId = 0;
     AppDatabase appDatabase;
     CorButton CorButtonById;
+    Boolean firstOpenSet = false;
 
 
     ConstraintLayout setLayout;
 
     public Butset() {
         // Required empty public constructor
+    }
+
+
+    void resetCor() {
+        blinkyViewModel.sendTX("$r&");
+        // сброс seekbar и корректировки если мы меняем направление (переключаем radiobuttons),
+        // когда мы заходим первый раз удержанием кнопки мы должны выставить предыдущее сохраненное значение.
+        if (!firstOpenSet) {
+            seekBar.setProgress(10);
+            Log.d(TAG, "resetCor: firstOpenSet");
+        } else firstOpenSet = false;
     }
 
 
@@ -91,33 +106,31 @@ public class Butset extends Fragment implements View.OnClickListener {
         btnDec.setOnClickListener(this);
         btnInc.setOnClickListener(this);
 
-        rgCorDir.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rbPlus:
-                        cbComp.setVisibility(View.GONE);
-                        frameComp.setVisibility(View.GONE);
-                        dirCor = "+";
-                        compValue = 0;
-                        break;
+        rgCorDir.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.rbPlus:
+                    cbComp.setVisibility(View.GONE);
+                    frameComp.setVisibility(View.GONE);
+                    dirCor = "+";
+                    compValue = 0;
+                    resetCor();
+                    break;
 
-                    case R.id.rbMinus:
-                        dirCor = "-";
-                        cbComp.setVisibility(View.GONE);
-                        frameComp.setVisibility(View.GONE);
-                        compValue = 0;
-                        break;
+                case R.id.rbMinus:
+                    dirCor = "-";
+                    cbComp.setVisibility(View.GONE);
+                    frameComp.setVisibility(View.GONE);
+                    compValue = 0;
+                    resetCor();
+                    break;
 
-                    case R.id.rbPercent:
-                        dirCor = "p";
-                        cbComp.setVisibility(View.VISIBLE);
-                        if (cbComp.isChecked()) frameComp.setVisibility(View.VISIBLE);
+                case R.id.rbPercent:
+                    dirCor = "p";
+                    cbComp.setVisibility(View.VISIBLE);
+                    if (cbComp.isChecked()) frameComp.setVisibility(View.VISIBLE);
+                    resetCor();
+                    break;
 
-
-                        break;
-                }
-                Log.d("myLogs", dirCor);
             }
         });
 
@@ -131,7 +144,9 @@ public class Butset extends Fragment implements View.OnClickListener {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 corValue = progress;
                 etCorValue.setText(String.valueOf(corValue));
-                blinkyViewModel.sendTX("$" + dirCor + corValue + "&");
+                //Log.d(TAG, "onProgressChanged: curCorButton.getCorDir() = " + curCorButton.getCorDir());
+                blinkyViewModel.sendTX("$" + curCorButton.getCorDir() + corValue + "&");
+
             }
 
             @Override
@@ -151,7 +166,7 @@ public class Butset extends Fragment implements View.OnClickListener {
 
         buttonsViewModel.getmCurCorButton().observe(getActivity(), corButton -> {
             curCorButton = corButton;
-            if(curCorButton != null) curCorButId = curCorButton.getId();
+            if (curCorButton != null) curCorButId = curCorButton.getId();
 
         });
 
@@ -165,34 +180,36 @@ public class Butset extends Fragment implements View.OnClickListener {
                 if (aBoolean) {
                     setLayout.setVisibility(View.VISIBLE);
                     //CorButton newcurCorButton = buttonsViewModel.getCorButtonById(curCorButId);
-                   // CorButtonById = appDatabase.buttonsDao().getItemById(curCorButId);
+                    // CorButtonById = appDatabase.buttonsDao().getItemById(curCorButId);
                     etButName.setText(curCorButton.getButNum());
-
-                    seekBar.setProgress(curCorButton.getCorValue());
-                } else {
-
-                    setLayout.setVisibility(View.GONE);
+                    //buttonsViewModel.setmSetButton(false);
+                    firstOpenSet = true;
                 }
 
-                Log.d("myLogs", "название: " + curCorButton.getButNum() + ", corValue: " + curCorButton.getCorValue() + ", dirCor: " + curCorButton.getCorDir() + ", compValue: " + curCorButton.getCompValue());
-                if (curCorButton.getCompValue() != 0) cbComp.setChecked(true);
-                else cbComp.setChecked(false);
-                switch (curCorButton.getCorDir()) {
-                    case "+":
-                        rbPlus.setChecked(true);
-                    break;
 
-                    case "-":
-                        rbMinus.setChecked(true);
-                        break;
+                seekBar.setProgress(curCorButton.getCorValue());
+            } else {
 
-                    case "p":
-                        rbPercent.setChecked(true);
-                        break;
-
-                }
+                setLayout.setVisibility(View.GONE);
             }
 
+            //  Log.d("myLogs", "название: " + curCorButton.getButNum() + ", corValue: " + curCorButton.getCorValue() + ", dirCor: " + curCorButton.getCorDir() + ", compValue: " + curCorButton.getCompValue());
+            if (curCorButton.getCompValue() != 0) cbComp.setChecked(true);
+            else cbComp.setChecked(false);
+            switch (curCorButton.getCorDir()) {
+                case "+":
+                    rbPlus.setChecked(true);
+                    break;
+
+                case "-":
+                    rbMinus.setChecked(true);
+                    break;
+
+                case "p":
+                    rbPercent.setChecked(true);
+                    break;
+
+            }
         });
 
         return v;
@@ -205,7 +222,7 @@ public class Butset extends Fragment implements View.OnClickListener {
             case R.id.btnClose:
                 buttonsViewModel.setmSetButton(false);
                 setLayout.setVisibility(View.GONE);
-                blinkyViewModel.sendTX("$r&");
+                resetCor();
                 break;
             case R.id.btnSave:
                 butName = etButName.getText().toString();
@@ -214,7 +231,7 @@ public class Butset extends Fragment implements View.OnClickListener {
                         curCorButton.getId(), butName, dirCor, corValue, compValue
                 ));
                 setLayout.setVisibility(View.GONE);
-                blinkyViewModel.sendTX("$r&");
+                resetCor();
 
             case R.id.btnInc:
                 corValue++;

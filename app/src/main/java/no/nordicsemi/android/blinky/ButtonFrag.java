@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import no.nordicsemi.android.blinky.database.AppDatabase;
 import no.nordicsemi.android.blinky.database.CorButton;
@@ -30,10 +31,12 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
     int prefNumOfButs = 8;
     List<CorButton> corButtonList;
     public static boolean initialized = false;
-    private static final String TAG = "myLogs";
+    private static final String TAG = "ButtonFrag";
     RecyclerView recButView;
     ButtonAdapter adapter;
+    StringBuilder msg;
 
+    TextView tvState;
     Button btnRes;
     private ButtonsViewModel buttonsViewModel;
     private BlinkyViewModel blinkyViewModel;
@@ -58,10 +61,8 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
 
         recButView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         // Отслеживание изменения количества кнопок в настройках
-
-
         buttonsViewModel.getCorButList().observe(getActivity(), corButtonList -> {
-            Log.d(TAG, "onChanged: corButtonList.size() = ");
+            //Log.d(TAG, "onChanged: corButtonList.size() = ");
             if (corButtonList != null) {
 
                 int listSize = corButtonList.size();
@@ -98,34 +99,34 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
                 }
             }
 
-            Log.d("myLogs", "size of list = " + corButtonList.size());
+           // Log.d("myLogs", "size of list = " + corButtonList.size());
             adapter.additems(corButtonList);
 
         });
-
         btnRes = v.findViewById(R.id.btnRes);
+        tvState = v.findViewById(R.id.tv_state);
         btnRes.setOnClickListener(v1 -> blinkyViewModel.sendTX("$r&"));
 
         return v;
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-        CorButton corButton = (CorButton) v.getTag();
-        //если настроена компенсация
-        Log.d("myLogs", "corValue " + corButton.getCorValue() + ", corDir " + corButton.getCorDir());
-        if (corButton.getCorDir().equals("p") && (corButton.getCompValue() != 0)) {
-            Log.d("myLogs", ", compValue = " + corButton.getCompValue());
-        }
-        StringBuilder msg = new StringBuilder();
+    void makeMsg(CorButton corButton) {
+        msg = new StringBuilder();
         msg.append("$");
         msg.append(corButton.getId()+1).append(",");
         msg.append(corButton.getCorDir());
         msg.append(corButton.getCorValue());
         if (corButton.getCorDir().contains("p")) msg.append(",").append(corButton.getCompValue());
         msg.append("&");
+    }
+
+    @Override
+    public void onClick(View v) {
+        CorButton corButton = (CorButton) v.getTag();
+        tvState.setText(corButton.getButNum());
+        makeMsg(corButton);
+        Log.d(TAG, "onClick: msg = " + msg.toString());
         blinkyViewModel.sendTX(msg.toString());
     }
 
