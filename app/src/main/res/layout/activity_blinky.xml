@@ -80,6 +80,7 @@
 				app:layout_constraintTop_toBottomOf="@id/tv_rx_msg"
 				android:layout_marginStart="5dp"
 				android:layout_marginTop="5dp"
+				android:visibility="gone"
 				android:ems="10"
 				android:inputType="textPersonName"
 				 />
@@ -88,6 +89,7 @@
 				android:id="@+id/btn_send"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:visibility="gone"
 				app:layout_constraintStart_toEndOf="@id/send_text"
 				app:layout_constraintTop_toBottomOf="@id/tv_rx_msg"
 				android:text="Отправить"/>

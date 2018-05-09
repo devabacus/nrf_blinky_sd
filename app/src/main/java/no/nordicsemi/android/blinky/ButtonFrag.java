@@ -35,6 +35,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
     RecyclerView recButView;
     ButtonAdapter adapter;
     StringBuilder msg;
+    Boolean setOpened = false;
 
     TextView tvState;
     Button btnRes;
@@ -60,6 +61,14 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         blinkyViewModel.getUartData().observe(getActivity(), s -> Log.d(TAG, "onChanged: getData " + s));
 
         recButView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
+        buttonsViewModel.ismSetButton().observe(getActivity(), b->{
+            if(b!=null){
+                setOpened = b;
+                Log.d(TAG, "onCreateView: setOpened = " + setOpened);
+            }
+        });
+
         // Отслеживание изменения количества кнопок в настройках
         buttonsViewModel.getCorButList().observe(getActivity(), corButtonList -> {
             //Log.d(TAG, "onChanged: corButtonList.size() = ");
@@ -127,6 +136,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         tvState.setText(corButton.getButNum());
         makeMsg(corButton);
         Log.d(TAG, "onClick: msg = " + msg.toString());
+        //if(!setOpened)
         blinkyViewModel.sendTX(msg.toString());
     }
 
@@ -135,6 +145,8 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         CorButton corButton = (CorButton) v.getTag();
         buttonsViewModel.setmCurCorButton(corButton);
         buttonsViewModel.setmSetButton(true);
+        Log.d(TAG, "onLongClick: setmSetButton = true");
         return false;
     }
+
 }
