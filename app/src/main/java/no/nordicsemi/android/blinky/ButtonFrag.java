@@ -65,9 +65,11 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         cbCorMode = v.findViewById(R.id.cb_cor_mode);
         cbCorMode.setOnClickListener(v1 -> {
             if(cbCorMode.isChecked()){
-                Toast.makeText(getContext(), "checked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Auto", Toast.LENGTH_SHORT).show();
+                blinkyViewModel.sendTX(Cmd.COR_MODE_AUTO);
             } else {
-                Toast.makeText(getContext(), "unchecked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Manual", Toast.LENGTH_SHORT).show();
+                blinkyViewModel.sendTX(Cmd.COR_MODE_MANUAL);
             }
         });
         blinkyViewModel.getUartData().observe(getActivity(), s -> Log.d(TAG, "onChanged: getData " + s));
@@ -127,7 +129,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         btnRes = v.findViewById(R.id.btnRes);
         tvState = v.findViewById(R.id.tv_state);
         btnRes.setOnClickListener(v1 -> {
-            blinkyViewModel.sendTX("$r&");
+            blinkyViewModel.sendTX(Cmd.COR_RESET);
             tvState.setText("Сброс");
         });
 
@@ -155,6 +157,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         Log.d(TAG, "onClick: msg = " + msg.toString());
         //if(!setOpened)
         blinkyViewModel.sendTX(msg.toString());
+
     }
     @Override
     public boolean onLongClick(View v) {
