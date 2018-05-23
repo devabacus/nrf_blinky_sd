@@ -113,6 +113,15 @@
 				android:layout_alignParentStart="true"
 				app:layout_constraintTop_toBottomOf="@id/frag_butSet" />
 
+			<fragment
+				android:id="@+id/frag_state"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:name="no.nordicsemi.android.blinky.StateFragment"
+				app:layout_constraintTop_toBottomOf="@id/frag_but"
+
+				/>
+
 
 
 		</android.support.constraint.ConstraintLayout>
