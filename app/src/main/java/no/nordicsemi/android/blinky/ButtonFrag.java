@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
     public static boolean initialized = false;
     private static final String TAG = "ButtonFrag";
     RecyclerView recButView;
+    CheckBox cbCorMode;
     ButtonAdapter adapter;
     StringBuilder msg;
     Boolean setOpened = false;
@@ -60,6 +62,14 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         adapter = new ButtonAdapter(new ArrayList<CorButton>(), this, this);
         recButView.setAdapter(adapter);
 
+        cbCorMode = v.findViewById(R.id.cb_cor_mode);
+        cbCorMode.setOnClickListener(v1 -> {
+            if(cbCorMode.isChecked()){
+                Toast.makeText(getContext(), "checked", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "unchecked", Toast.LENGTH_SHORT).show();
+            }
+        });
         blinkyViewModel.getUartData().observe(getActivity(), s -> Log.d(TAG, "onChanged: getData " + s));
 
         recButView.setLayoutManager(new GridLayoutManager(getContext(), 4));

@@ -17,6 +17,18 @@
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <CheckBox
+        android:id="@+id/cb_cor_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="10dp"
+        android:text="@string/autocorrect"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_state"
+        app:layout_constraintEnd_toStartOf="@id/btnRes" />
+
+
     <Button
         android:id="@+id/btnRes"
         android:layout_width="wrap_content"

@@ -74,6 +74,7 @@
     <string name="settings">Настройки</string>
     <string name="website">www.scale-driver.ru</string>
     <string name="Reset">Сброс</string>
+    <string name="autocorrect">Авто</string>
 
     <string-array name="butNum_entries">
 
