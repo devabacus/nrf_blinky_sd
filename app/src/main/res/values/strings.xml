@@ -92,5 +92,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="adc">АЦП: %1$d</string>
     <string name="adc1">АЦП: %d</string>
+    <string name="noData">Нет данных</string>
 
 </resources>

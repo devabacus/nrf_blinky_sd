@@ -22,6 +22,7 @@ import android.widget.Toast;
 import no.nordicsemi.android.blinky.database.AppDatabase;
 import no.nordicsemi.android.blinky.database.CorButton;
 import no.nordicsemi.android.blinky.viewmodels.BlinkyViewModel;
+import no.nordicsemi.android.blinky.viewmodels.StateViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
     Button btnRes;
     private ButtonsViewModel buttonsViewModel;
     private BlinkyViewModel blinkyViewModel;
+    private StateViewModel stateViewModel;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     public static AppDatabase appDatabase;
     public ButtonFrag() {}
@@ -57,6 +59,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         blinkyViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(BlinkyViewModel.class);
         //blinkyViewModel.connect(device);
         buttonsViewModel = ViewModelProviders.of(getActivity()).get(ButtonsViewModel.class);
+        stateViewModel = ViewModelProviders.of(getActivity()).get(StateViewModel.class);
         View v = inflater.inflate(R.layout.fragment_button, container, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         prefNumOfButs = Integer.valueOf(sharedPreferences.getString(KEY_LIST_NUM_BUTTONS, "8"));
@@ -73,14 +76,16 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         cbCorMode = v.findViewById(R.id.cb_cor_mode);
         cbCorMode.setOnClickListener(v1 -> {
             if(cbCorMode.isChecked()){
-                Toast.makeText(getContext(), "Auto", Toast.LENGTH_SHORT).show();
                 blinkyViewModel.sendTX(Cmd.COR_MODE_AUTO);
+                // это значение мониторится в StateFragment
+                stateViewModel.setmAutoCorMode(1);
             } else {
-                Toast.makeText(getContext(), "Manual", Toast.LENGTH_SHORT).show();
                 blinkyViewModel.sendTX(Cmd.COR_MODE_MANUAL);
+                stateViewModel.setmAutoCorMode(0);
+                // это значение мониторится в StateFragment
             }
         });
-        blinkyViewModel.getUartData().observe(getActivity(), s -> Log.d(TAG, "onChanged: getData " + s));
+//        blinkyViewModel.getUartData().observe(getActivity(), s -> Log.d(TAG, "onChanged: getData " + s));
 
 
         buttonsViewModel.ismSetButton().observe(getActivity(), b->{
@@ -137,6 +142,8 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         tvState = v.findViewById(R.id.tv_state);
         btnRes.setOnClickListener(v1 -> {
             blinkyViewModel.sendTX(Cmd.COR_RESET);
+
+            stateViewModel.setmAutoCorMode(2);
             tvState.setText("Сброс");
         });
 

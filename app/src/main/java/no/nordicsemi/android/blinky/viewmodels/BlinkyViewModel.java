@@ -134,7 +134,7 @@ public class BlinkyViewModel extends AndroidViewModel implements BlinkyManagerCa
 	@Override
 	public void onDataReceived(final String state) {
 		mRXdata.postValue(state);
-		Log.d(TAG, "RX: " + state);
+		//Log.d(TAG, "RX: " + state);
 		//Logger.a(testLogSession, "received something");
 	}
 
