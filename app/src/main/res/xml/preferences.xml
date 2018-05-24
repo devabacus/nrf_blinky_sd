@@ -10,4 +10,10 @@
         android:title="Количество кнопок"
 
         />
+
+    <SwitchPreference
+        android:key="adc_show"
+        android:title="Показывать АЦП"
+        android:defaultValue="false"
+        />
 </PreferenceScreen>

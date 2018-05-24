@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static no.nordicsemi.android.blinky.preferences.SetPrefActivity.SettingsFragment.KEY_ADC_SHOW;
 import static no.nordicsemi.android.blinky.preferences.SetPrefActivity.SettingsFragment.KEY_LIST_NUM_BUTTONS;
 public class ButtonFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
@@ -40,6 +41,7 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
     ButtonAdapter adapter;
     StringBuilder msg;
     Boolean setOpened = false;
+
 
     TextView tvState;
     Button btnRes;
@@ -58,9 +60,15 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         View v = inflater.inflate(R.layout.fragment_button, container, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         prefNumOfButs = Integer.valueOf(sharedPreferences.getString(KEY_LIST_NUM_BUTTONS, "8"));
+
+        Log.d(TAG, "onCreateView: ");
+
+
         recButView = v.findViewById(R.id.but_rec_view);
         adapter = new ButtonAdapter(new ArrayList<CorButton>(), this, this);
         recButView.setAdapter(adapter);
+        recButView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
 
         cbCorMode = v.findViewById(R.id.cb_cor_mode);
         cbCorMode.setOnClickListener(v1 -> {
@@ -74,7 +82,6 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
         });
         blinkyViewModel.getUartData().observe(getActivity(), s -> Log.d(TAG, "onChanged: getData " + s));
 
-        recButView.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
         buttonsViewModel.ismSetButton().observe(getActivity(), b->{
             if(b!=null){
@@ -147,6 +154,12 @@ public class ButtonFrag extends Fragment implements View.OnClickListener, View.O
             msg.append("c").append(corButton.getCompValue());
         }
         msg.append("&");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override

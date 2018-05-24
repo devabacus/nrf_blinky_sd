@@ -3,9 +3,12 @@ package no.nordicsemi.android.blinky;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +18,21 @@ import java.util.Objects;
 
 import no.nordicsemi.android.blinky.viewmodels.BlinkyViewModel;
 
+import static no.nordicsemi.android.blinky.preferences.SetPrefActivity.SettingsFragment.KEY_ADC_SHOW;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class StateFragment extends Fragment {
 
 
+    private static final String TAG = "StateFragment";
     BlinkyViewModel blinkyViewModel;
-    TextView tvBleInfo;
+    TextView tvAdc;
+
     String bleMsg[];
     int adcValue = 0;
+    Boolean adcShow = false;
 
     public StateFragment() {
         // Required empty public constructor
@@ -38,7 +46,7 @@ public class StateFragment extends Fragment {
         blinkyViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(BlinkyViewModel.class);
 
         View v = inflater.inflate(R.layout.fragment_state, container, false);
-        tvBleInfo = v.findViewById(R.id.tv_adc);
+        tvAdc = v.findViewById(R.id.tv_adc);
         blinkyViewModel.getUartData().observe(getActivity(), s -> {
             assert s != null;
             if(s.matches("^ad.*")){
@@ -49,7 +57,7 @@ public class StateFragment extends Fragment {
                 //String resAdc = String.format(getResources().getString(R.string.adc), adcValue);
                 String resAdc = String.format(getString(R.string.adc1), adcValue);
                 //tvBleInfo.setText(getString(R.string.adc) + adcValue);
-                tvBleInfo.setText(resAdc);
+                tvAdc.setText(resAdc);
             }
 
 
@@ -58,4 +66,21 @@ public class StateFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+//        prefNumOfButs = Integer.valueOf(sharedPreferences.getString(KEY_LIST_NUM_BUTTONS, "8"));
+        adcShow = sharedPreferences.getBoolean(KEY_ADC_SHOW, false);
+
+        Log.d(TAG, "onResume: ");
+        if (adcShow) {
+            tvAdc.setVisibility(View.VISIBLE);
+            blinkyViewModel.sendTX(Cmd.ADC_SHOW_ON);
+        } else {
+            tvAdc.setVisibility(View.GONE);
+            blinkyViewModel.sendTX(Cmd.ADC_SHOW_OFF);
+        }
+    }
 }
