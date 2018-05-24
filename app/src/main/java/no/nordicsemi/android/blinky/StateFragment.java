@@ -28,7 +28,7 @@ public class StateFragment extends Fragment {
 
     private static final String TAG = "StateFragment";
     BlinkyViewModel blinkyViewModel;
-    TextView tvAdc;
+    TextView tvAdc, tvAutoMode;
 
     String bleMsg[];
     int adcValue = 0;
@@ -47,16 +47,17 @@ public class StateFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_state, container, false);
         tvAdc = v.findViewById(R.id.tv_adc);
+        tvAutoMode = v.findViewById(R.id.tv_auto_mode);
         blinkyViewModel.getUartData().observe(getActivity(), s -> {
             assert s != null;
             if(s.matches("^ad.*")){
                 String adcValueStr = s.substring(s.indexOf('d') + 1);
-                if(adcValueStr.matches("[0-9]*")){
-                    adcValue = Integer.valueOf(adcValueStr);
+                adcValueStr = adcValueStr.replaceAll("[^0-9]", "");
+                if (adcValueStr.matches("[0-9]*")) {
+                    adcValue = Integer.parseInt(adcValueStr);
                 }
                 //String resAdc = String.format(getResources().getString(R.string.adc), adcValue);
                 String resAdc = String.format(getString(R.string.adc1), adcValue);
-                //tvBleInfo.setText(getString(R.string.adc) + adcValue);
                 tvAdc.setText(resAdc);
             }
 
